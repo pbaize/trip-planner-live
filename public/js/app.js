@@ -11,16 +11,15 @@ function onDeleteToday () {
 }
 
 function onAddToDays () {
-  Days.push( makeDay() ) 
+  Days.push(makeDay())
   refreshPanel()
 }
 
-function onSwitchDays (self) {
-  return function() {
-      console.log(self.Today);
-      self.Today = $(this).data('dayIndex')
-      self.refreshPanel()
-  }
+function onSwitchDays () {
+  // return function () {
+  Today = $(this).data('day-index')
+  refreshPanel()
+// }
 }
 
 function listenToDeleteDayButton () {
@@ -28,13 +27,12 @@ function listenToDeleteDayButton () {
 }
 
 function listenToDayBtns () {
-  var self = this;
   var $btnList = $('.day-buttons button')
-  $btnList.each(function(index) {
+  $btnList.each(function (index) {
     if ($(this).attr('id') === 'day-add') {
       $(this).on('click', onAddToDays)
     } else {
-      $(this).on('click', onSwitchDays(self))
+      $(this).on('click', onSwitchDays)
     }
   })
 }
@@ -54,13 +52,14 @@ function refreshPanel () {
   var $dayslist = $('.day-buttons')
   $dayslist.empty()
   for (var i = 0; i < Days.length; i++) {
-    if (i == Today) {
-      $dayslist.append('<button class="btn btn-circle day-btn current-day" data-dayIndex="'+i+'">'+(i+1)+'</button>')
+    if (i === Today) {
+      $dayslist.append('<button class="btn btn-circle day-btn current-day" data-day-index="' + i + '">' + (i + 1) + '</button>\n')
     } else {
-      $dayslist.append('<button class="btn btn-circle day-btn" data-dayIndex="'+i+'">'+(i+1)+'</button>')
+      $dayslist.append('<button class="btn btn-circle day-btn" data-day-index="' + i + '">' + (i + 1) + '</button>\n')
     }
   }
   $dayslist.append('<button class="btn btn-circle day-btn" id="day-add">+</button>')
+  $('#day-title span').html('Day ' + (Today + 1))
   listenToDayBtns()
 }
 
